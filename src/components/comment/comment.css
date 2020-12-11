@@ -1,0 +1,22 @@
+.comment{
+  margin-left: 15px;
+  background: #fff;
+  border-radius: 10px;
+  font-size: 0.8rem;
+  margin-bottom: 5px;
+}
+.comment__header{
+  font-weight: 700;
+  padding: 5px 0 0 5px;
+}
+.comment__text{
+  padding: 5px 0 5px 5px;
+}
+#descendants{
+  display: none;
+}
+.comment__btn{
+  cursor: pointer;
+  padding: 5px;
+  font-weight: 700;
+}

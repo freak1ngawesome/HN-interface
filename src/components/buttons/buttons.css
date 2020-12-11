@@ -1,0 +1,15 @@
+.nav_btn{
+  margin: 4px;
+  display: inline-block;
+  
+}
+.nav_btn div{
+  padding: 10px;
+  cursor: pointer;
+  background: #fff;
+  border-radius: 5px;
+  border: 1px solid #000;
+}
+.nav_btn div a{
+  color: #000;
+}

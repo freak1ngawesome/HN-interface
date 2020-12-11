@@ -1,0 +1,7 @@
+.footer{
+  padding: 20px;
+}
+.footer__links{
+  display: flex;
+  justify-content: space-around;
+}

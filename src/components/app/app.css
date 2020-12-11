@@ -1,0 +1,18 @@
+.container{
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 0 10px;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+.footer__link a{
+  color: black;
+  font-size: 1.2rem;
+}
+.footer__link{
+  transition: .6s;
+}
+.footer__link:hover{
+  transform: scale(1.1);
+}

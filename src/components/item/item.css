@@ -1,0 +1,36 @@
+.item{
+  background: #87CEEB;
+  border-radius: 5px;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+.item__header{
+  display: flex;
+  justify-content: space-between;
+}
+.item__label{
+  color: black;
+  display: inline-block;
+  margin-bottom: 10px;
+}
+.item__info{
+  display: flex;
+}
+.author,.date{
+  margin-left: 10px;
+}
+.item__comments-count{
+  display: inline-block;
+  font-size: 1.2rem;
+  position: relative;
+  margin-top: 5px;
+}
+.item__comments-count::after{
+  width: 16px;
+  height: 16px;
+  position: relative;
+  content: '';
+  display: inline-block;
+  margin-left: 2px;
+  background: url(./icons/comment.svg);
+}
