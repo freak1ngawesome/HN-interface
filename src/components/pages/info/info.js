@@ -5,6 +5,8 @@ import { updateCurrentData,loading } from '../../../actions/index.js';
 import { getNewsById } from '../../../services/get.js';
 import { ButtonPrev, ButtonReload } from '../../buttons/buttons.js'
 import './info.css';
+import PropTypes from 'prop-types';
+
 // страница новости
 function Info({currentData,updateCurrentData,currentLoading,loading}){
 // при монтировании, если был переход с main, то кладем id в localStorage, чтобы при перезагрузке страницы в браузере, мы могли сделать запрос на новость
@@ -44,7 +46,7 @@ function Info({currentData,updateCurrentData,currentLoading,loading}){
   return (
     <section className='info__list'>
       <div className='info__header'>
-        <h2 className='info__label'>{currentData.title}</h2>
+        <h2 className='info__label' id='qwe'>{currentData.title}</h2>
         <a href={currentData.url} className='info__url' target='_blank' rel="noreferrer">{currentData.url}</a>
       </div>
       <div className='info__nav-btns'>
@@ -67,6 +69,13 @@ function Info({currentData,updateCurrentData,currentLoading,loading}){
       </div>
     </section>
   )
+};
+
+Info.propTypes = {
+  currentData: PropTypes.object.isRequired,
+  updateCurrentData: PropTypes.func.isRequired,
+  currentLoading: PropTypes.bool.isRequired,
+  loading: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => {

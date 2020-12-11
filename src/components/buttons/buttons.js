@@ -1,5 +1,7 @@
 import { Link } from 'react-router-dom';
 import './buttons.css';
+import PropTypes from 'prop-types';
+
 // кнопка Назад
 export function ButtonPrev(){
   return(
@@ -20,4 +22,6 @@ export function ButtonReload({reload}){
   )
 };
 
-
+ButtonReload.propTypes = {
+  reload: PropTypes.func.isRequired,
+};

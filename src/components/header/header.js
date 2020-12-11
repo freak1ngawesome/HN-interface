@@ -4,6 +4,7 @@ import {getNewsIds} from '../../services/get.js';
 import {connect} from 'react-redux';
 import {updateIds,loading} from '../../actions/index.js';
 import './header.css';
+import PropTypes from 'prop-types';
 
 function Header ({updateIds,loading}) {
 // стейт для работы таймера
@@ -37,18 +38,21 @@ function Header ({updateIds,loading}) {
     return (
       <>
         <header className='header'>
-          <h1 className='header__label'>
+          <h1 className='header__label' id='header'>
             Hacker News
           </h1>
           <div className='header__timer' id='timer'>
             <span>{time.h}</span>:<span>{time.m}</span>
           </div>
-
         </header>
       </>
     );
 };
 
+Header.propTypes = {
+  updateIds: PropTypes.func.isRequired,
+  loading: PropTypes.func.isRequired,
+};
 
 const mapDispatchToProps = {
   updateIds,

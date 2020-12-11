@@ -4,6 +4,7 @@ import { connect } from 'react-redux'
 import {getNewsById} from '../../services/get.js';
 import { updateCurrentData } from '../../actions/index.js';
 import './item.css';
+import PropTypes from 'prop-types';
 
 function Item({item_id,updateCurrentData}){
 // внутренний стейт кажлой новости
@@ -42,6 +43,11 @@ function Item({item_id,updateCurrentData}){
       </div>
     </div>
   ) : null // иначе не рендерим
+};
+
+Item.propTypes = {
+  item_id: PropTypes.number.isRequired,
+  updateCurrentData: PropTypes.func.isRequired,
 };
 
 const mapDispatchToProps = {

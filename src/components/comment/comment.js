@@ -1,6 +1,7 @@
 import {useState,useEffect,memo} from 'react';
 import {getNewsById} from '../../services/get.js';
 import './comment.css';
+import PropTypes from 'prop-types';
 
 function Comment({comment_id,root}){// получаем id комментария и показатель root, который определяет, является ли комментарий корневой
 // стейт комментария
@@ -48,5 +49,11 @@ function Comment({comment_id,root}){// получаем id комментари�
     </div>
   ) : null // иначе не рендерим ничего
 };
+
+Comment.propTypes = {
+  comment_id: PropTypes.number.isRequired,
+  root: PropTypes.bool.isRequired,
+};
+
 // экспортируем компонент
 export default memo(Comment);
