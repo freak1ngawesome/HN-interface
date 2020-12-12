@@ -5,3 +5,22 @@
   display: flex;
   justify-content: space-around;
 }
+.footer__link a{
+  color: black;
+  font-size: 1.2rem;
+}
+.footer__link{
+  transition: .6s;
+}
+.footer__link:hover{
+  transform: scale(1.1);
+}
+
+@media (max-width:560px){
+  .footer__link a{
+    font-size: 1rem;
+  }
+  .footer__link:hover{
+    transform: none;
+  }
+}

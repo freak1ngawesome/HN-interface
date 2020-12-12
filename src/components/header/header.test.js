@@ -15,4 +15,5 @@ describe('Header tests',() => {
   it('Component has only one h1',() => {
     expect(header.root.findAllByProps({id: 'header'}).length).toBe(1);
   });
+
 });

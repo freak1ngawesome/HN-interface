@@ -4,12 +4,13 @@
   
 }
 .nav_btn div{
-  padding: 10px;
+  padding: 10px 3px;
   cursor: pointer;
   background: #fff;
   border-radius: 5px;
   border: 1px solid #000;
 }
 .nav_btn div a{
+  padding: 10px;
   color: #000;
 }

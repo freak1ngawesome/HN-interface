@@ -12,6 +12,7 @@
   color: black;
   display: inline-block;
   margin-bottom: 10px;
+  text-align: start;
 }
 .item__info{
   display: flex;
@@ -24,6 +25,7 @@
   font-size: 1.2rem;
   position: relative;
   margin-top: 5px;
+  flex: 0 0 55px;
 }
 .item__comments-count::after{
   width: 16px;
@@ -33,4 +35,35 @@
   display: inline-block;
   margin-left: 2px;
   background: url(./icons/comment.svg);
+}
+
+
+@media (max-width:1140px){
+  .item__label{
+    font-size: 1.3rem;;
+  }
+}
+@media (max-width:740px){
+  .item__label{
+    font-size: 1.1rem;;
+  }
+}
+@media (max-width:560px){
+  .item__label{
+    font-size: 1rem;
+    margin-bottom: 6px;
+  }
+  .item__info{
+    font-size: 0.7rem;
+  }
+  .item__comments-count{
+    font-size: 1rem;
+    flex: 0 0 auto;
+  }
+  .item__comments-count::after{
+    display: none;
+  }
+  .author,.date{
+    margin-left: 6px;
+  }
 }

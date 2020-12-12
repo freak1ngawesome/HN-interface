@@ -11,6 +11,7 @@
 }
 .comment__text{
   padding: 5px 0 5px 5px;
+  word-wrap: break-word;
 }
 #descendants{
   display: none;

@@ -6,13 +6,25 @@
   flex-direction: column;
   height: 100vh;
 }
-.footer__link a{
-  color: black;
-  font-size: 1.2rem;
+
+
+@media (max-width:1140px){
+  .container{
+    max-width: 800px;
+  }
 }
-.footer__link{
-  transition: .6s;
+@media (max-width:960px){
+  .container{
+    max-width: 700px;
+  }
 }
-.footer__link:hover{
-  transform: scale(1.1);
+@media (max-width:740px){
+  .container{
+    max-width: 540px;
+  }
+}
+@media (max-width:560px){
+  .container{
+    max-width: 100%;
+  }
 }

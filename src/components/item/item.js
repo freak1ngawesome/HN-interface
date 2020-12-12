@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux'
 import {getNewsById} from '../../services/get.js';
 import { updateCurrentData } from '../../actions/index.js';
+import {setTime} from '../../services/setTime.js'
 import './item.css';
 import PropTypes from 'prop-types';
 
@@ -15,10 +16,10 @@ function Item({item_id,updateCurrentData}){
     return () => {setData(null)} // при размонтировании "обнуляем" стейт
   },[item_id]);
 // функция для преобразования миллисекунд в формат DD:MM:YY HH:MM:SS
-  function setTime(time){
-    let date = new Date(time * 1000);
-    return date.toLocaleString();
-  };
+  // function setTime(time){
+  //   let date = new Date(time * 1000);
+  //   return date.toLocaleString();
+  // };
 // если data есть то рендерим компонент
   return data ? (
     <div className='item'>
