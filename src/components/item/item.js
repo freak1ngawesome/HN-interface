@@ -15,11 +15,7 @@ function Item({item_id,updateCurrentData}){
     getNewsById(item_id).then(data => setData(data));
     return () => {setData(null)} // при размонтировании "обнуляем" стейт
   },[item_id]);
-// функция для преобразования миллисекунд в формат DD:MM:YY HH:MM:SS
-  // function setTime(time){
-  //   let date = new Date(time * 1000);
-  //   return date.toLocaleString();
-  // };
+
 // если data есть то рендерим компонент
   return data ? (
     <div className='item'>

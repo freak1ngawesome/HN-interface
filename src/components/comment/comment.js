@@ -1,6 +1,7 @@
 import {useState,useEffect,memo} from 'react';
 import {getNewsById} from '../../services/get.js';
 import './comment.css';
+import {setTime} from '../../services/setTime.js'
 import PropTypes from 'prop-types';
 
 function Comment({comment_id,root}){// получаем id комментария и показатель root, который определяет, является ли комментарий корневой
@@ -13,11 +14,7 @@ function Comment({comment_id,root}){// получаем id комментари�
       setData(data);
       });
   },[comment_id]);
-// функция для преобразования миллисекунд в формат DD:MM:YY HH:MM:SS
-  function setTime(time){
-    let date = new Date(time * 1000);
-    return date.toLocaleString();
-  };
+
 // функция для сбора списка дочерних комментариев
   function loadComments(){
     // если есть data, в которой есть kids и массив не пустой
@@ -42,7 +39,7 @@ function Comment({comment_id,root}){// получаем id комментари�
         e.target.nextSibling.style.display = 'none' :
         e.target.nextSibling.style.display = 'block'
         // выще описана логика работы конпки показать комментарии, проверка на наличие root
-      }}>Показать все комментарии</div> : null}
+      }}>Все комментарии</div> : null}
       <div id={root ? 'descendants root' : 'descendants'} style={root ? {display: 'none'} : {display: 'block'}}>
       {comments}
       </div>

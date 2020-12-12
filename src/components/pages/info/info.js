@@ -5,6 +5,7 @@ import { updateCurrentData,loading } from '../../../actions/index.js';
 import { getNewsById } from '../../../services/get.js';
 import { ButtonPrev, ButtonReload } from '../../buttons/buttons.js'
 import './info.css';
+import {setTime} from '../../../services/setTime.js'
 import PropTypes from 'prop-types';
 
 // страница новости
@@ -35,11 +36,7 @@ function Info({currentData,updateCurrentData,currentLoading,loading}){
       return 'Нет комментариев';
     }
   };
-// функция для преобразования миллисекунд в формат DD:MM:YY HH:MM:SS
-  function setTime(time){
-    let date = new Date(time * 1000);
-    return date.toLocaleString();
-  };
+
 // массив с клмментами
   const comments = loadComments();
 
