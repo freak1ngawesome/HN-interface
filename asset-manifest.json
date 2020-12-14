@@ -1,14 +1,14 @@
 {
   "files": {
-    "main.css": "/HN-interface/static/css/main.f6f5f124.chunk.css",
-    "main.js": "/HN-interface/static/js/main.7806c080.chunk.js",
-    "main.js.map": "/HN-interface/static/js/main.7806c080.chunk.js.map",
+    "main.css": "/HN-interface/static/css/main.d14d4317.chunk.css",
+    "main.js": "/HN-interface/static/js/main.824e3cd4.chunk.js",
+    "main.js.map": "/HN-interface/static/js/main.824e3cd4.chunk.js.map",
     "runtime-main.js": "/HN-interface/static/js/runtime-main.0970716b.js",
     "runtime-main.js.map": "/HN-interface/static/js/runtime-main.0970716b.js.map",
     "static/js/2.0c284a85.chunk.js": "/HN-interface/static/js/2.0c284a85.chunk.js",
     "static/js/2.0c284a85.chunk.js.map": "/HN-interface/static/js/2.0c284a85.chunk.js.map",
     "index.html": "/HN-interface/index.html",
-    "static/css/main.f6f5f124.chunk.css.map": "/HN-interface/static/css/main.f6f5f124.chunk.css.map",
+    "static/css/main.d14d4317.chunk.css.map": "/HN-interface/static/css/main.d14d4317.chunk.css.map",
     "static/js/2.0c284a85.chunk.js.LICENSE.txt": "/HN-interface/static/js/2.0c284a85.chunk.js.LICENSE.txt",
     "static/media/item.css": "/HN-interface/static/media/comment.a88be251.svg",
     "static/media/preloader.5ec33ab4.svg": "/HN-interface/static/media/preloader.5ec33ab4.svg"
@@ -16,7 +16,7 @@
   "entrypoints": [
     "static/js/runtime-main.0970716b.js",
     "static/js/2.0c284a85.chunk.js",
-    "static/css/main.f6f5f124.chunk.css",
-    "static/js/main.7806c080.chunk.js"
+    "static/css/main.d14d4317.chunk.css",
+    "static/js/main.824e3cd4.chunk.js"
   ]
 }
