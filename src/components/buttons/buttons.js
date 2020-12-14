@@ -17,7 +17,7 @@ export function ButtonPrev(){
 export function ButtonReload({reload}){
   return(
     <div className='buttonPrev nav_btn'>
-      <div onClick={() => reload()}>Обновить</div>
+      <button onClick={() => reload()}>Обновить</button>
     </div>
   )
 };
