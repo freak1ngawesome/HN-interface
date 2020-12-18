@@ -24,4 +24,4 @@
   #### Буду ради фидбэку)
 
 ### UPDATE
-  Сделал опциональное задание с Docker'ом: настроил Dockerfile, осталось прописать docker build -t hn-interface:dev . в консоли!
+  Сделал опциональное задание с Docker'ом: настроил Dockerfile, Вам осталось прописать docker build -t hn-interface:dev . в консоли!
