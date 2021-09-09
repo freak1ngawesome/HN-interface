@@ -1,64 +1,31 @@
-// import React from 'react';
-import {useState,useEffect} from 'react';
-import {getNewsIds} from '../../services/get.js';
-import {connect} from 'react-redux';
-import {updateIds,loading} from '../../actions/index.js';
-import './header.css';
-import PropTypes from 'prop-types';
+import React, { useState, useEffect } from 'react'
+import { Center, Heading, Text, VStack } from '@chakra-ui/react'
+import { useGetLastNewsIdsQuery } from '../../slices/apiSlice'
+import getCurrentTime from '../../services/getCurrentTime'
 
-function Header ({updateIds,loading}) {
-// стейт для работы таймера
-  const [time,setTime] = useState(timer());
-// после монтирования компонента устанавливаем таймер для работы часов
+function Header () {
+  const [currentTime, setCurrentTime] = useState(getCurrentTime())
   useEffect(() => {
-    let updateTime = setInterval(() => {
-      setTime(timer());
-    },
-    1000);
-    loading(true); // показываем загрузку
-    getNewsIds().then(data => { // делаем запрос на сервер
-      updateIds(data); // получаем массив id постов и обновляем store
-      loading(false); // скрываем загрузку
-    });
-    return function clean(){
-      clearInterval(updateTime);// отписка от таймера
-    };
-  },[time.m]);// вызов хука раз в минуту
-  // функция таймер
-  function timer(){
-    const date = new Date();
-    let h = date.getHours() < 10 ? '0' + date.getHours() : date.getHours();
-    let m = date.getMinutes() < 10 ? '0' + date.getMinutes() : date.getMinutes();
-    return {
-      h,
-      m,
-    }
-  };
+    const timer = setInterval(() => {
+      setCurrentTime(getCurrentTime())
+    }, 1000)
+    return () => clearInterval(timer)
+  },[])
 
-    return (
-      <>
-        <header className='header'>
-          <h1 className='header__label' id='header'>
-            Hacker News
-          </h1>
-          <div className='header__timer' id='timer'>
-            <span>{time.h}</span>:<span>{time.m}</span>
-          </div>
-        </header>
-      </>
-    );
-};
+  let { refetch } = useGetLastNewsIdsQuery()
 
-Header.propTypes = {
-  updateIds: PropTypes.func.isRequired,
-  loading: PropTypes.func.isRequired,
-};
+  useEffect(() => {
+    refetch()
+  }, [currentTime.m, refetch])
 
-const mapDispatchToProps = {
-  updateIds,
-  loading,
-};
+  return (
+    <Center as='header' height='120px' bg='gray.200' mb='20px' p={5} shadow='md' borderWidth='1px'>
+      <VStack>
+        <Heading size='lg'>Hacker News</Heading>
+        <Text>{currentTime.h} : {currentTime.m} : {currentTime.s}</Text>
+      </VStack>
+    </Center>
+  )
+}
 
-
-// экспорт шапки
-export default connect(null,mapDispatchToProps)(Header);
+export default Header

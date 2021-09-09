@@ -1,8 +1,13 @@
-import {createStore} from 'redux';
-import reducer from './reducer';
+import { configureStore } from '@reduxjs/toolkit'
+import { setupListeners } from '@reduxjs/toolkit/query'
+import { newsApi } from './slices/apiSlice'
 
-const store = createStore(reducer);
+export const store = configureStore({
+  reducer: {
+    [newsApi.reducerPath]: newsApi.reducer,
+  },
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware().concat(newsApi.middleware),
+})
 
-export default store;
-
-// СОЗДАНИЕ STORE, не более
+setupListeners(store.dispatch)

@@ -1,41 +1,41 @@
-import {connect} from 'react-redux';
-import Item from '../../item/item.js';
-import { ButtonReload } from '../../buttons/buttons.js';
-import {updateIds,loading} from '../../../actions/index.js';
-import {getNewsIds} from '../../../services/get.js';
-import './main.css';
-import PropTypes from 'prop-types';
+import React, {useState, useEffect} from 'react'
+import Item from '../../item/item.js'
+import Preloader from '../../preloader/preloader'
+import { List, Box, IconButton, Center } from '@chakra-ui/react'
+import { RepeatIcon } from '@chakra-ui/icons'
+import { useGetLastNewsIdsQuery } from '../../../slices/apiSlice'
 
-// главная страница с новостями
-function Main({ids,updateIds,loading}){
-  return (
-    <section className='main__list'>
-      <ButtonReload reload={() => {// обновляем список id по нажатию
-        loading(true); // включаем загрузку
-        getNewsIds().then(data => {
-          updateIds(data);
-          loading(false);// скрываем загрузку
-        });
-      }}/>
-      {ids.map((item_id,index) => <Item item_id={item_id} key={index}/>)}
-    </section>
-  )
-};
+function Main(){
+  const {data, isLoading, isFetching, isError, refetch} = useGetLastNewsIdsQuery()
 
-Main.propTypes = {
-  ids: PropTypes.array.isRequired,
-  updateIds: PropTypes.func.isRequired,
-  loading: PropTypes.func.isRequired,
-};
+  const [itemsCount, setItemsCount] = useState(10)
 
-const mapStateToProps = (state) => {
-  return {
-    ids: state.ids,
+  useEffect(() => {
+    document.addEventListener('scroll', handleScroll)
+    return () => document.removeEventListener('scroll', handleScroll)
+  }, [])
+
+  function handleScroll(e) {
+    if (e.target.documentElement.scrollHeight - (e.target.documentElement.scrollTop + window.innerHeight) < 100) {
+      setItemsCount(count => count + 10 > 100 ? 100 : count + 10)
+    }
   }
-};
-const mapDispatchToProps = {
-  updateIds,
-  loading,
-};
+  const handleRefreshButton = function() {
+    refetch()
+  }
+  if (isError) return <Center height='100px'>Ошибка</Center>
+  if (isLoading) return <Preloader/>
 
-export default connect(mapStateToProps,mapDispatchToProps)(Main);
+  return (
+    <>
+      <Box p={5} shadow='md' borderWidth='1px' mb='20px'>
+        <IconButton aria-label='Refresh' icon={<RepeatIcon />} onClick={handleRefreshButton}/>
+      </Box>
+      <List spacing='5px'>
+        {data.slice(0, itemsCount).map(id => <Item key={id} id={id} isFetching={isFetching}/>)}
+      </List>
+    </>
+  ) 
+}
+
+export default Main

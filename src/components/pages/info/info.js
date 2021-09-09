@@ -1,90 +1,50 @@
-import { useEffect, memo } from 'react';
-import { connect } from 'react-redux';
-import Comment from '../../comment/comment.js';
-import { updateCurrentData,loading } from '../../../actions/index.js';
-import { getNewsById } from '../../../services/get.js';
-import { ButtonPrev, ButtonReload } from '../../buttons/buttons.js'
-import './info.css';
-import {setTime} from '../../../services/setTime.js'
-import PropTypes from 'prop-types';
+import React, { memo } from 'react'
+import RootComment from '../../comment/rootComment'
+import Preloader from '../../preloader/preloader'
+import { useGetNewsDataByIdQuery, useGetLastNewsIdsQuery } from '../../../slices/apiSlice'
+import { Box, Heading, Flex, Spacer, HStack, Text, Link, List, IconButton } from '@chakra-ui/react'
+import { ArrowBackIcon, RepeatIcon } from '@chakra-ui/icons'
+import { useParams, useHistory } from 'react-router-dom'
+import { setTime } from '../../../services/setTime.js'
 
-// страница новости
-function Info({currentData,updateCurrentData,currentLoading,loading}){
-// при монтировании, если был переход с main, то кладем id в localStorage, чтобы при перезагрузке страницы в браузере, мы могли сделать запрос на новость
-  useEffect(() => {
-    if (Object.keys(currentData).length === 0){// если объект из пропс пришел пустой, то значит страница была перезагружена и надо взять id из localStorage и сделать повторый запрос
-      const id = window.localStorage.getItem('id');
-      getNewsById(id).then(data => {
-        updateCurrentData(data);
-      });
-    } else {
-      window.localStorage.setItem('id',`${currentData.id}`);
-    };
-  },[currentData]);
-// если есть data и идет загрузка, от таймера из header то обновляем новость, и комментарии
-  if (currentData && currentLoading){
-    getNewsById( window.localStorage.getItem('id')).then(data => {
-      loading(false);// убираем загрузку
-      updateCurrentData(data);// обновляем data
-    });
-  };
-// если есть data, kids и массив не пустой, то возвращаем массив элементов с комментами
-  function loadComments(){
-    if (currentData && currentData.descendants && currentData.kids.length){
-      return currentData.kids.map((comment_id,index) => <Comment comment_id={comment_id} root={true} key={index}/>)
-    } else {
-      return 'Нет комментариев';
-    }
-  };
+function Info(){
+  let { id } = useParams()
 
-// массив с клмментами
-  const comments = loadComments();
+  const { data, isLoading, isFetching, refetch } = useGetNewsDataByIdQuery(id)
+  const {isFetching: everyMinuteFetching} = useGetLastNewsIdsQuery()
+  if (everyMinuteFetching) {refetch()}
 
-  return (
-    <section className='info__list'>
-      <div className='info__header'>
-        <h2 className='info__label' id='qwe'>{currentData.title}</h2>
-        <a href={currentData.url} className='info__url' target='_blank' rel="noreferrer">{currentData.url}</a>
-      </div>
-      <div className='info__nav-btns'>
-        <ButtonPrev/>
-        <ButtonReload reload={() => {
-          loading(true);
-          getNewsById(currentData.id).then(data => {
-            updateCurrentData(data);
-          });
-        }}/>
-      </div>
-      <hr/>
-      <div className='info__block'>
-        <div className='info__block_author'>Автор: <span>{currentData.by}</span> </div>
-        <div className='info__block_date'>Дата и время публикации: <span>{setTime(currentData.time)}</span> </div>
-        <div className='info__block_comments-count'>Количество комментариев: <span>{currentData.descendants}</span> </div>
-      </div>
-      <div className='info__comments'>
-        {comments}
-      </div>
-    </section>
-  )
-};
-
-Info.propTypes = {
-  currentData: PropTypes.object.isRequired,
-  updateCurrentData: PropTypes.func.isRequired,
-  currentLoading: PropTypes.bool.isRequired,
-  loading: PropTypes.func.isRequired,
-};
-
-const mapStateToProps = (state) => {
-  return {
-    currentData: state.currentData,
-    currentLoading: state.loading,
+  const history = useHistory()
+  const handleGoBackButton = function() {
+    history.goBack()
   }
-};
+  const handleRefreshButton = function() {
+    refetch()
+  }
+  if (isLoading) return <Preloader/>
+  return (
+    <Box>
+      <Flex p={5} shadow='md' borderWidth='1px' mb='20px' gridGap='5px'>
+        <Heading size='lg'>{data.title}</Heading>
+        <Spacer/>
+        <HStack>
+          <IconButton aria-label='Go back' icon={<ArrowBackIcon />} onClick={handleGoBackButton}/>
+          <IconButton aria-label='Refresh' icon={<RepeatIcon />} onClick={handleRefreshButton}/>
+        </HStack>
+      </Flex>
+      <Box p={5} shadow='md' borderWidth='1px' spacing='5px'>
+        <Text>Рейтинг: {data.score}</Text>
+        <Text>Дата и время создания: {setTime(data.time)}</Text>
+        <Text>Автор: {data.by}</Text>
+        <Text>Комментарии: {data.descendants}</Text>
+        {data.url && <Link href={data.url} color='teal.500' isExternal>Ссылка на материал</Link>}
+      </Box>
+      {data.kids && 
+        <List>
+          {data.kids.map(commentId => <RootComment key={commentId} id={commentId} isFetching={isFetching}/>)}
+        </List>}
+    </Box>
+  )
+}
 
-const mapDispatchToProps = {
-  updateCurrentData,
-  loading
-};
-
-export default memo(connect(mapStateToProps,mapDispatchToProps)(Info));
+export default memo(Info)

@@ -1,24 +1,12 @@
-import {connect} from 'react-redux';
-import loader from './preloader.svg';
-import './preloader.css';
-import PropTypes from 'prop-types';
-// тут все просто: если из стейта приходит loading и он true - показываем загрузку иначе нет
-function Preloader({loading}){
-  return loading ? (
-    <div className='preloader' id='preloader'>
-      <img src={loader} alt='loading...' className='preloader__img'/>
-    </div>
-  ) : null
-};
+import React from 'react'
+import { Spinner, Center } from '@chakra-ui/react'
 
-Preloader.propTypes = {
-  loading: PropTypes.bool.isRequired,
-};
+function Preloader() {
+  return (
+    <Center color='red.500' size='xl'>
+      <Spinner/>
+    </Center>
+  )
+}
 
-const mapStateToProps = (state) => {
-  return {
-    loading: state.loading,
-  }
-};
-
-export default connect(mapStateToProps,null)(Preloader);
+export default Preloader

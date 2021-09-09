@@ -1,32 +1,30 @@
-// импортируем нужные зависимости
+import Main from '../pages/main/main.js'
+import Info from '../pages/info/info.js'
+import Header from '../header/header.js'
+import Footer from '../footer/footer.js'
 import {
   BrowserRouter as Router,
   Route,
   Switch,
-} from 'react-router-dom';
-import Main from '../pages/main/main.js';
-import Info from '../pages/info/info.js';
-import Header from '../header/header.js';
-import Footer from '../footer/footer.js';
-import Preloader from '../preloader/preloader.js';
+} from 'react-router-dom'
+import { Container, Box } from '@chakra-ui/react'
 
-import './app.css'
 
-// оборачиваем наши компоненты в контейнер и роутер
 function App() {
   return (
     <Router> 
-      <Preloader/>
-      <div className='container'>
+      <Container maxW='1000px' d='flex' flexDirection='column' minH='100vh'>
         <Header/>
+        <Box as='main' flex='1'>
         <Switch>
-            <Route path='/info' component={Info} />
+            <Route path='/news/:id' component={Info} />
             <Route path='/' component={Main} />
         </Switch>
+        </Box>
         <Footer/>
-      </div>
+      </Container>
     </Router>
-  );
-};
-// экспортируем
-export default App;
+  )
+}
+
+export default App

@@ -1,54 +1,45 @@
-import {useState,useEffect,memo} from 'react';
-import { Link } from 'react-router-dom';
-import { connect } from 'react-redux'
-import {getNewsById} from '../../services/get.js';
-import { updateCurrentData } from '../../actions/index.js';
-import {setTime} from '../../services/setTime.js'
-import './item.css';
-import PropTypes from 'prop-types';
+import React, { memo } from 'react'
+import { Link } from 'react-router-dom'
+import { ListItem, Heading, Box, Text, HStack, Center, Skeleton } from '@chakra-ui/react'
+import { ChatIcon, StarIcon, CalendarIcon, AtSignIcon } from '@chakra-ui/icons'
+import { useGetNewsDataByIdQuery } from '../../slices/apiSlice'
+import { setTime } from '../../services/setTime.js'
+import PropTypes from 'prop-types'
 
-function Item({item_id,updateCurrentData}){
-// внутренний стейт кажлой новости
-  const [data,setData] = useState(null);
-// после монтирования компонента делаем запрос на сервер по переданному в компонент id и обновляем стейт
-  useEffect(() => {
-    getNewsById(item_id).then(data => setData(data));
-    return () => {setData(null)} // при размонтировании "обнуляем" стейт
-  },[item_id]);
-
-// если data есть то рендерим компонент
-  return data ? (
-    <div className='item'>
-      <div className='item__header'>
-        <Link to={{pathname: `/info/${data.id}`}}
-        onClick={() => updateCurrentData(data)}
-        >
-          <h2 className='item__label'>{data.title}</h2>
-        </Link>
-        <span className='item__comments-count'>{data.descendants}</span>
-      </div>
-      <div className='item__info'>
-        <div className='score'>
-          Рейтинг: {data.score}
-        </div>
-        <div className='author'>
-          {data.by}
-        </div>
-        <div className='date'>
-          {setTime(data.time)}
-        </div>
-      </div>
-    </div>
-  ) : null // иначе не рендерим
-};
+function Item({id, isFetching}){
+  const { data, isLoading, refetch, isError } = useGetNewsDataByIdQuery(id, {
+    refetchOnReconnect: true,
+    refetchOnMountOrArgChange: true,
+  })
+  if (isFetching) {refetch()}
+  if (isLoading) return <Skeleton height='90px'/>
+  if (isError) return <Center height='90px'>Ошибка загрузки</Center>
+  
+  return data && (
+    <ListItem p={5} shadow='md' borderWidth='1px' spacing='5px'>
+        <Box>
+          <Heading size='md'>
+            <Link to={{pathname: `/news/${id}`, state: {newsId: id}}}>
+              {data.title}
+            </Link>
+          </Heading>
+        </Box>
+        <HStack>
+          <StarIcon/>
+          <Text>{data.score}</Text>
+          <CalendarIcon/>
+          <Text>{setTime(data.time)}</Text>
+          <AtSignIcon/>
+          <Text>{data.by}</Text>
+          <ChatIcon/>
+          <Text>{data.descendants}</Text>
+        </HStack>
+    </ListItem>
+  )
+}
 
 Item.propTypes = {
-  item_id: PropTypes.number.isRequired,
-  updateCurrentData: PropTypes.func.isRequired,
-};
+  id: PropTypes.number.isRequired,
+}
 
-const mapDispatchToProps = {
-  updateCurrentData,
-};
-
-export default memo(connect(null,mapDispatchToProps)(Item));
+export default memo(Item)
